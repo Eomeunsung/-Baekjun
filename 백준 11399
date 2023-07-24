@@ -1,0 +1,59 @@
+//백준 11399 삽입정렬
+import java.util.Scanner;
+
+public class Main {
+	
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		int arr[] = new int[N];
+		int s[] = new int[N];
+		int sum = 0;
+		
+		for(int i=0; i<arr.length; i++) {
+			arr[i] = sc.nextInt();
+		}
+		
+		for(int i=1; i<N; i++) {
+			int insert = arr[i];
+			int point_start = 0;
+			
+			if(i==1) {
+				if(arr[i-1] > arr[i]) {
+					int temp = arr[i-1];
+					arr[i-1] = arr[i];
+					arr[i] = temp;
+					continue;
+				}else {
+					continue;
+				}
+			}
+			
+			for(int j=i-1; j>-1; j--) {
+				if(arr[j]<arr[i]) {
+					point_start = j+1;
+					break;
+				}
+				
+			}
+			for(int j=i; j>point_start; j--) {
+				arr[j] = arr[j-1];
+				
+			}
+			arr[point_start] = insert;
+		}
+		
+		
+		
+		s[0] = arr[0];
+		for(int i=1; i<arr.length; i++) {
+			s[i] = s[i-1] + arr[i];
+		}
+		
+		for(int i=0; i<arr.length; i++) {
+			sum += s[i];
+		}
+		System.out.println(sum);
+	}
+}
