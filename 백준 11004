@@ -1,0 +1,82 @@
+// 백준 11004 퀵정렬
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int N = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
+		int arr[] = new int[N];
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		quick(arr, 0 , N-1, K-1);
+		System.out.println(arr[K-1]);
+	
+	}
+	
+	public static void quick(int arr[], int low, int high, int K) {
+		if(low < high) {
+			int pivot = partition(arr, low, high); // partition 에서 반환된 j값 저장 
+			
+			if(pivot == K) { //pivot이 K번째 위치해 호출했던 곳으로 복귀
+				return;
+			}
+			else if(K < pivot) { // K가 pivot보다 작으면 pivot보다 작은 애들만 정렬하면 되므로 high 값 pviot-1로 재귀 
+				quick(arr, low, pivot-1, K);
+			}
+			else { //K가 pivot보다 크면 pivot보다 큰 애들만 정렬하면 되므로 low값 pivot+1로 재귀
+				quick(arr, pivot+1, high, K);
+			}
+			
+		}
+		
+	}
+	
+	public static int partition(int arr[], int low, int high) {
+		if(low+1 == high) {
+			if(arr[low] > arr[high]) {
+				swap(arr, low, high);
+			}
+			return high;
+		}
+		
+		int M = (low+high)/2; //피벗 중앙 값으로 선정
+		swap(arr, low, M); //중앙값을 시작위치로 변경
+		
+		int pivot = arr[low]; //피벗을 시작위치로 선정
+		int i = low+1, j=high; //i=시작점 , j=종료점
+		
+		while(i<=j) {
+			while(pivot < arr[j] && j>0) { //피벗보다 작은 수가 나올때까지 j--
+				j--;
+			}
+			while(pivot > arr[i] && i<arr.length-1) {  //피벗보다 큰 수가 나올때까지 i++
+				i++;
+			}
+			if(i<=j) { //나온 값 끼리 데이터 위치 변경
+				swap(arr, i++, j--);
+			}
+		}
+		arr[low] = arr[j]; //다 위치 변경 했으면 피벗 가운대로 오도록 변경 low는 피벗 값 
+		arr[j] = pivot; //피벗값 j인덱스에 저장 
+		return j; //j리턴 
+	}
+	
+	public static void swap(int arr[], int i, int j) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+		
+	}
+
+}
