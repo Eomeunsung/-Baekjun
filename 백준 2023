@@ -1,0 +1,48 @@
+//백준 2023 DFS
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	
+	static int N;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		
+		// 일의 자리 소수는 2, 3, 5, 7 이므로 4개 주어진 상태에서 시작
+		DFS(2,1);
+		DFS(3,1);
+		DFS(5,1);
+		DFS(7,1);
+		
+		
+		
+	}
+	static void DFS(int number, int v){ // number = 숫자, v = 자릿수 
+		if(v==N) { // v 자릿수 랑 N 입력 받은 자릿수 가 같으면 소수 인지 판별 후 출력후 리턴 
+			if(isPrime(number)) {
+				System.out.println(number);
+				return;
+			}
+		}
+		for(int i=1; i<=9; i++) { // 다음 자릿수는 짝수는 소수가 아니이므로 짝수는 건너 뛰고 홀수 만 찾음
+			if(i%2==0) {
+				continue;
+			}
+			if(isPrime(number*10+i)){ // 홀수이면 자릿수 추가후 값을 넣고 소수인지 판별 후에 맞으면 재귀 호출 
+				DFS(number*10+i, v+1);
+			}
+		}
+		
+	}
+	
+	static boolean isPrime(int num) {  // 소수 판별 
+		for(int i=2; i<=num-1; i++) {
+			if(num%i==0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+}
