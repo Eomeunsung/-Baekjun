@@ -1,0 +1,91 @@
+//백준 1167 BFS
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+import java.util.Scanner;
+
+public class Main {
+	
+	static ArrayList<Edge> arr[];
+	static int distance[];
+	static boolean visited[];
+	static int count = 0;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		
+		int N = sc.nextInt();
+		arr = new ArrayList[N+1];
+		
+		for(int i=1; i<N+1; i++) {
+			arr[i] = new ArrayList<Edge>();
+		}
+		
+		for(int i=0; i<N; i++) {
+			int s = sc.nextInt();
+		
+			while(true) {
+				int e = sc.nextInt();
+				if(e==-1) {
+					break;
+				}
+				int v = sc.nextInt();
+				arr[s].add(new Edge(e,v));
+			}
+		}
+		distance = new int[N+1];
+		visited = new boolean[N+1];
+		
+		BFS(1); //임의의 점에서 시작 
+		
+		int Max = 1; //임의의로 인덱스 번호 부여
+		
+		for(int i=2; i<=N; i++) { // 인덱스에 있는 값 비교후 제일 큰값 Max에 대입
+			if(distance[Max]<distance[i]) {
+				Max = i;
+			}
+		}
+		
+		//다시 선언후 BFS 호출
+		distance = new int[N+1]; 
+		visited = new boolean[N+1];
+		BFS(Max);
+		Arrays.sort(distance);
+		System.out.println(distance[N]);
+		
+	}
+	static void BFS(int index){
+		Queue<Integer> q = new LinkedList<Integer>();
+		
+		q.add(index);
+		visited[index] = true;
+		
+		while(!q.isEmpty()) {
+			int now_node = q.poll();
+			for(Edge i: arr[now_node]) {
+				int e = i.e;
+				int v = i.value;
+				if(!visited[e]) {
+					visited[e] = true;
+					q.add(e);
+					distance[e] = distance[now_node]+v;
+				}
+			}
+		}
+		
+	}
+}
+
+class Edge{
+	int e;
+	int value;
+	
+	public Edge(int e, int value) {
+		this.e = e;
+		this.value = value;
+	}
+}
