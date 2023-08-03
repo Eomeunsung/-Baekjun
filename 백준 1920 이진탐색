@@ -1,0 +1,44 @@
+//백준 1920 이진 탐색
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		
+		int A[] = new int[N];
+		
+		for(int i=0; i<A.length; i++) {
+			A[i] = sc.nextInt();
+		}
+		Arrays.sort(A);
+		int M = sc.nextInt();
+		for(int i=0; i<M; i++) {
+			int S = sc.nextInt();
+			int start = 0;
+			int end = N-1;
+			int mid = (start+end)/2;
+			int count = 0;
+			while(start<=end) {
+				if(A[mid]>S) {
+					end = mid -1;
+					mid = (start + end)/2;
+				}else if(A[mid]<S) {
+					start = mid+1;
+					mid = (start + end)/2;
+				}else if(A[mid]==S) {
+					count = S;
+					break;
+				}
+			}
+			if(count!=0) {
+				System.out.println(1);
+			}else {
+				System.out.println(0);
+			}
+		}
+	}
+
+}
