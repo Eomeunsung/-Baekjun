@@ -1,0 +1,34 @@
+//백준 1929 아리토스테네스의 체
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		int M = sc.nextInt();
+		int arr[] = new int[M+1];
+		
+		for(int i=2; i<=M; i++) {
+			arr[i] = i;
+		}
+		
+		for(int i=2; i<=M; i++) {
+			if(arr[i]==0) {
+				continue;
+			}
+			for(int j=i+i; j<=M; j=j+i) {
+				arr[j] = 0;
+			}
+		}
+		for(int i=N; i<arr.length; i++) {
+			if(arr[i]==0) {
+				continue;
+			}
+			System.out.println(arr[i]);
+		}
+	}
+	
+}
