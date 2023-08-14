@@ -1,0 +1,74 @@
+//백준 1325 그래프
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+	static ArrayList<Integer> arr[];
+	static boolean visited[];
+	static int N, M;
+	static int answer[];
+	
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		N =sc.nextInt();
+		M = sc.nextInt();
+		
+		arr=new ArrayList[N+1];
+		
+		visited = new boolean[N+1];
+		answer = new int[N+1];
+		for(int i=1; i<=N; i++) {
+			arr[i] = new ArrayList<Integer>();
+		}
+		
+		for(int i=0; i<M; i++) {
+			int S = sc.nextInt();
+			int E = sc.nextInt();
+			arr[S].add(E);
+		}
+		
+		for(int i=1; i<=N; i++) {
+			visited = new boolean[N+1];  //한번씩 돌때마다 visited 초기화 
+			BFS(i);
+		}
+		
+		int Max = 0;
+		for(int i=1; i<=N; i++) {
+			if(Max<answer[i]) {
+				Max = answer[i];
+			}
+		}
+		
+		for(int i=1; i<=N; i++) {
+			if(answer[i]==Max) {
+				System.out.print(i+" ");
+			}
+		}
+	
+	}
+	private static void BFS(int Node) {
+		Queue<Integer> q = new LinkedList<Integer>();
+		q.add(Node);
+		visited[Node] = true;
+		
+		while(!q.isEmpty()){
+			int now_Node = q.poll();
+			for(int i:arr[now_Node]) {
+				if(visited[i]==false) {
+					visited[i] = true;
+					answer[i]++;
+					q.add(i);
+				}	
+				
+			}
+		}
+	}
+	
+}
