@@ -1,0 +1,65 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+    static boolean visited[][];
+    static int arr[][];
+    static int dx[] = {0, 1, 0, -1}; //x축
+    static int dy[] = {1, 0, -1, 0}; //y축
+    static int N;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        arr = new int[N][N];
+
+        int max_h = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                arr[i][j] = sc.nextInt();
+                max_h = Math.max(max_h, arr[i][j]); // 최대 높이를 갱신
+            }
+        }
+
+        int max = 0;
+
+        for (int h = 0; h <= max_h; h++) {
+            int count = 0;
+            visited = new boolean[N][N];
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (arr[i][j] > h && !visited[i][j]) {
+                        count++;
+                        BFS(i, j, h);
+                    }
+                }
+            }
+            max = Math.max(max, count);
+        }
+
+        System.out.println(max);
+    }
+
+    public static void BFS(int i, int j, int h) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{i, j});
+
+        visited[i][j] = true;
+
+        while (!q.isEmpty()) {
+            int now[] = q.poll();
+            for (int k = 0; k < 4; k++) {
+                int x = now[0] + dx[k];
+                int y = now[1] + dy[k];
+
+                if (x >= 0 && y >= 0 && x < N && y < N) {
+                    if (arr[x][y] > h && !visited[x][y]) {
+                        visited[x][y] = true;
+                        q.offer(new int[]{x, y});
+                    }
+                }
+            }
+        }
+    }
+}
