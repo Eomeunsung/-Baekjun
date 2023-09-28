@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+public class Main {
+
+	static int min = 64; //8*8 체스판의 경우인 경우 색을 바꿔야 할 경우 최대의 수가 8*8=64	가지이다. 
+	static boolean arr[][];
+	public static void main(String[] args){
+		
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		int M = sc.nextInt();
+		
+		arr = new boolean[N][M];
+		
+		for(int i=0; i<N; i++) {
+			String str = sc.next();
+			for(int j=0; j<M; j++) {
+				if(str.charAt(j)=='W') {
+					arr[i][j] = true;
+				}else {
+					arr[i][j] = false;
+				}
+			}
+		}
+		
+		int N_row = N-7;
+		int M_low = M-7;
+		
+		for(int i=0; i<N_row; i++) {
+			for(int j=0; j<M_low; j++) {
+				find(i, j);
+			}
+		}
+		System.out.println(min);
+	}
+	static void find(int n, int m) {
+		int count = 0;
+		int n_end = n+8;
+		int m_end = m+8;
+		boolean TF = arr[n][m];
+		for(int i=n; i<n_end; i++) {
+			for(int j=m; j<m_end; j++) {
+				
+				if(arr[i][j]!=TF) {
+					count++;
+				}
+				TF = !TF; //ex) TF가 true면 false로 변형 TF가 false면 true로 변형
+				
+			}
+			TF = !TF;
+		}
+		
+		/*
+		 *  첫 번째 칸을 기준으로 할 때의 색칠 할 개수(count)와
+		 *  첫 번째 칸의 색의 반대되는 색을 기준으로 할 때의 색칠 할 개수(64 - count) 중 최솟값을 count 에 저장 
+		 */
+		count = Math.min(count, 64-count);
+		
+		
+		min = Math.min(min, count);
+
+	}
+}
