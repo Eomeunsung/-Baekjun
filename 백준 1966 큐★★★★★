@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+	static boolean arr[] = new boolean[10];
+	static LinkedList <int[]> q;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		
+		
+		for(int i=0; i<N; i++) {
+			q = new LinkedList<>();
+			int n = sc.nextInt();
+			int m = sc.nextInt();
+			
+			for(int j=0; j<n; j++) {
+				int s= sc.nextInt();
+				q.offer(new int[] {j, s});  //저장되는 방식 ex) 첫 번째 링크리스트에 int[0]=j, int[1]=s , 두 번째 링크리스트 int[0]=j, int[1]=s
+			}
+			queue(m);
+		}
+		
+	}
+	
+	static void queue(int m) {   
+		int count = 0;
+		
+		while(!q.isEmpty()) {
+			int front[] = q.poll();
+			boolean max = true;
+			
+			for(int i=0; i<q.size(); i++) {
+				
+				if(front[1] < q.get(i)[1]) { 
+					q.offer(front);
+					for(int j=0; j<i; j++) {
+						q.offer(q.poll());
+					}
+					
+					max = false;
+					break;
+				}
+			}
+			
+			if(max==false) {
+				continue;
+			}else{
+				count++;
+			}
+			if(front[0]==m) {
+				System.out.println(count);
+				break;
+			}
+		}
+	}
+}
