@@ -1,0 +1,53 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int arr[] = new int[N];
+
+        for(int i=0; i<N; i++){
+            arr[i] = sc.nextInt();
+        }
+
+        Arrays.sort(arr);
+        int count = 0;
+        for(int i=0; i<N; i++){
+            int st = 0;
+            int ed = N-1;
+//            System.out.println("arr "+arr[i]+" "+i);
+            while(st<ed){
+                if(ed>=N){
+                    break;
+                }
+//                System.out.println("st "+st+" ed "+ed+" "+(arr[st]+arr[ed]));
+                if(arr[i]==arr[st]+arr[ed]){
+
+                    if(ed!=i && st!=i){
+//                        System.out.println("맞음");
+                        count++;
+                        break;
+                    }
+                    if(st==i){
+                        st++;
+                    }else{
+                        ed--;
+                    }
+                }else if(arr[i]>arr[st]+arr[ed]){
+                    st++;
+                }else if(arr[i]<arr[st]+arr[ed]){
+                    ed--;
+                }
+            }
+        }
+        System.out.println(count);
+    }
+
+}
