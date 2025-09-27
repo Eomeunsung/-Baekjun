@@ -1,0 +1,46 @@
+import java.io.*;
+
+
+public class Main {
+
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        String str = br.readLine();
+        char chr[] = str.toCharArray();
+        
+
+        int st = 0;
+        int count = 0;
+        int cnt = 0;
+        while(st+2<M){
+          if(chr[st]=='I'){
+              if(chr[st]=='I' && chr[st+1]=='O' && chr[st+2]=='I'){
+                  cnt++;
+                  if(cnt==N){
+                      count++;
+                      cnt-=1;
+                      st+=2;
+                  }else{
+                      st+=2;
+                  }
+
+              }else{
+                  cnt=0;
+                  st++;
+              }
+          }else{
+              cnt=0;
+              st++;
+          }
+        }
+
+        System.out.println(count);
+
+
+    }
+
+}
