@@ -1,0 +1,62 @@
+import java.io.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Deque<V>deque = new ArrayDeque<>();
+        String str[] = br.readLine().split(" ");
+        int N = Integer.parseInt(str[0]);
+        int L = Integer.parseInt(str[1]);
+
+        int arr[] = new int[N];
+        str = br.readLine().split(" ");
+        for(int i=0; i<N; i++){
+            arr[i] = Integer.parseInt(str[i]);
+        }
+
+        for(int i=0; i<N; i++){
+            if(deque.isEmpty()){
+                deque.add(new V(i+1, arr[i]));
+            }else{
+                while (true){
+                    if(!deque.isEmpty()){
+                        V v = deque.peekLast();
+                        if(v.value >= arr[i]){
+                            deque.pollLast();
+                        }else if(v.value<arr[i]){
+                            deque.addLast(new V(i+1, arr[i]));
+                            break;
+                        }
+                    }else{
+                        deque.addLast(new V(i+1, arr[i]));
+                        break;
+                    }
+                }
+            }
+
+            V st = deque.peekFirst();
+
+            if(i-L+1>=st.index){
+                deque.pollFirst();
+            }
+            bw.write(deque.peekFirst().value+" ");
+
+        }
+        bw.flush();
+        bw.close();
+    }
+    static class V {
+        int index;
+        int value;
+
+        public V(int index, int value) {
+            this.index = index;
+            this.value = value;
+        }
+    }
+}
