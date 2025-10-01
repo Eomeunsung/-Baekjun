@@ -1,0 +1,50 @@
+import java.io.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+import java.util.Stack;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        Scanner sc = new Scanner(System.in);
+        Stack<Integer> st = new Stack<>();
+
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+
+        for(int i=0; i<arr.length; i++){
+            arr[i] = sc.nextInt();
+        }
+
+        st.add(1);
+        sb.append("+\n");
+        int add=2;
+        int index = 0;
+        while(true){
+            if(add>n+1 ||index>=arr.length){
+                break;
+            }
+            if(!st.isEmpty() && arr[index]==st.peek()){
+                st.pop();
+                sb.append("-\n");
+                index++;
+            }else{
+                st.push(add);
+                add++;
+                sb.append("+\n");
+            }
+        }
+        if(st.isEmpty() && index==n){
+            System.out.println(sb.toString());
+        }else{
+            System.out.println("NO");
+        }
+
+    }
+
+}
