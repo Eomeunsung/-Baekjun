@@ -1,0 +1,110 @@
+import java.io.*;
+import java.util.*;
+class Tree{
+    int index;
+    ArrayList<Integer> child;
+
+    public Tree(int index, ArrayList<Integer> child) {
+        this.index = index;
+        this.child = child;
+    }
+}
+
+public class Main {
+    static int K=0;
+    static Boolean flag [];
+    static Tree[] list;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int arr[] = new int[N];
+        flag = new Boolean[N];
+        list = new Tree[N];
+        for(int i=0; i<arr.length; i++){
+            arr[i] = sc.nextInt();
+            flag[i] = false;
+        }
+        int K = sc.nextInt();
+
+        for(int i=0; i<arr.length; i++){
+            ArrayList<Integer> child = new ArrayList<>();
+            list[i] = new Tree(i, child);
+        }
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]==-1){
+                continue;
+            }else{
+                Tree find = list[arr[i]];
+                find.child.add(i);
+                list[arr[i]] = new Tree(arr[i], find.child);
+            }
+        }
+
+        int count = 0;
+//        for(Tree t : list){
+//            System.out.println(t.index+" "+t.child);
+//
+//        }
+        removeTree(list[K]);
+
+
+        for(Tree t : list){
+            Boolean fl = false;
+            if(t.index!=-1){
+                for(int ch : t.child){
+                    if(!flag[ch]){
+                        fl = true;
+                        break;
+                    }
+                }
+                if(!fl){
+                    list[t.index] = new Tree(t.index, new ArrayList<>());
+                }
+            }
+
+        }
+
+        for(Tree t : list){
+            if(t.index!=-1){
+                if(t.child.isEmpty()){
+                    count++;
+                }
+            }
+
+        }
+
+//
+//        for(Tree t : list){
+//           System.out.println(t.index+" "+t.child);
+//
+//        }
+//
+//        for(int i=0; i<arr.length; i++){
+//            System.out.println(i+" "+flag[i]);
+//        }
+
+
+        System.out.println(count);
+
+    }
+
+    static void removeTree(Tree tree){
+        flag[tree.index] = true;
+
+        if(!tree.child.isEmpty()){
+
+            for(Integer ch : new ArrayList<>(tree.child)){
+
+                if(!flag[ch]){
+                    removeTree(list[ch]);
+                }
+            }
+        }
+        list[tree.index] = new Tree(-1, new ArrayList<>());
+    }
+
+
+}
+
