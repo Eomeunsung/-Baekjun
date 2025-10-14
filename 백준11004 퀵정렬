@@ -1,0 +1,73 @@
+import java.io.*;
+import java.util.Scanner;
+
+
+public class Main {
+
+    static int[] arr;
+    static int K;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+        String str[] = br.readLine().split(" ");
+        int N = Integer.parseInt(str[0]);
+        K = Integer.parseInt(str[1]);
+
+        arr = new int[N];
+
+        str = br.readLine().split(" ");
+        for(int i=0; i<arr.length; i++){
+            arr[i] = Integer.parseInt(str[i]);
+        }
+        quickSort(0, N-1, "시작");
+
+//        for(int i=0; i<arr.length; i++){
+//            System.out.print(arr[i]+" ");
+//        }
+        System.out.println(arr[K-1]);
+
+    }
+
+    static void quickSort(int low, int high, String str){
+        if(low>=high){
+            return;
+        }
+
+//        for(int i=0; i<arr.length; i++){
+//            System.out.print(arr[i]+" ");
+//        }
+//        System.out.println(str);
+        int pivot = (low+high)/2;
+        int pivotValue = arr[pivot];
+        int left = low;
+        int right = high;
+//        if(pivotValue==K){
+//            return;
+//        }
+
+        while (left<=right){
+            while (arr[left]<pivotValue){
+                left++;
+            }
+
+            while(arr[right]>pivotValue){
+                right--;
+            }
+
+            if (left <= right) {
+                int tmp = arr[right];
+                arr[right] = arr[left];
+                arr[left] = tmp;
+                left++;
+                right--;
+            }
+        }
+
+        quickSort(low, right, "왼쪽");
+        quickSort(left, high, "오른쪽");
+    }
+
+
+
+}
