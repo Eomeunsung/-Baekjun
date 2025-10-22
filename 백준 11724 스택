@@ -1,0 +1,63 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static Boolean flag[];
+    static Stack<Integer> st = new Stack<>();
+    static Result[] result;
+    static int count = 0;
+    static ArrayList<Integer> arr[];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        arr = new ArrayList[N+1];
+        flag = new Boolean[N+1];
+        for(int i=0; i<flag.length; i++){
+            flag[i] = false;
+        }
+        for(int i=0; i<arr.length; i++){
+            arr[i] = new ArrayList<>();
+        }
+        for(int i=0; i<M; i++){
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            arr[x].add(y);
+            arr[y].add(x);
+        }
+
+        for(int i=1; i<arr.length; i++){
+            if(!flag[i]){
+                flag[i] = true;
+                for(int j : arr[i]){
+                    st.add(j);
+                }
+                dfs();
+            }
+        }
+        System.out.println(count);
+    }
+
+    public static void dfs(){
+        while (true){
+            if(st.isEmpty()){
+                count++;
+                break;
+            }
+            int n = st.pop();
+            if(!flag[n]){
+                flag[n] = true;
+                for(int k : arr[n]){
+                    st.add(k);
+                }
+            }
+        }
+    }
+
+
+
+}
+
