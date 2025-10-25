@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+class Edge{
+    int cnt;
+    int x;
+    int y;
+
+    public Edge(int cnt, int x, int y) {
+        this.cnt = cnt;
+        this.x = x;
+        this.y = y;
+    }
+}
+public class Main {
+    static Boolean flag[][];
+    static int arr[][];
+    static int N;
+    static int M;
+    static Queue<Edge> que = new LinkedList<>();
+    static int min=Integer.MAX_VALUE;
+    static int X[] = {0, 0, -1, 1};
+    static int Y[] = {1, -1, 0, 0};
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+
+        N = sc.nextInt();
+        M = sc.nextInt();
+        sc.nextLine();
+        arr = new int[N][M];
+        for(int i=0; i<N; i++){
+            String str[] = sc.nextLine().split("");
+            for(int j=0; j<M; j++){
+                arr[i][j] = Integer.parseInt(str[j]);
+            }
+        }
+        flag = new Boolean[N][M];
+
+        for(int i=0; i<N; i++){
+            for(int j=0; j<M; j++){
+                flag[i][j] = false;
+            }
+        }
+        
+        flag[0][0] = true;
+        que.add(new Edge(1,0,0));
+        BFS();
+        System.out.println(min);
+
+    }
+
+    static void BFS() {
+        while(!que.isEmpty()){
+            Edge edge = que.poll();
+//            System.out.println("cnt "+edge.cnt+" x "+edge.x+" y "+edge.y);
+            if(edge.x==N-1 && edge.y==M-1){
+                if(min> edge.cnt){
+                    min = edge.cnt;
+                }
+            }
+            for(int i=0; i<4; i++){
+                if(edge.x+X[i]>=0 && edge.x+X[i]<N && edge.y+Y[i]>=0 && edge.y+Y[i]<M){
+                    int x1 = edge.x+X[i];
+                    int y1 = edge.y+Y[i];
+                    if(arr[x1][edge.y]==1 && !flag[x1][edge.y]){
+                        flag[x1][edge.y]=true;
+                        que.add(new Edge(edge.cnt+1, x1, edge.y));
+                    }
+                    if(arr[edge.x][y1]==1 && !flag[edge.x][y1]){
+                        flag[edge.x][y1]=true;
+                        que.add(new Edge(edge.cnt+1, edge.x, y1));
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
