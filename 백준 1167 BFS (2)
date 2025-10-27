@@ -1,0 +1,97 @@
+import java.io.*;
+import java.util.*;
+
+class Node{
+    int v;
+    ArrayList<Weight> list;
+
+    public Node(int v, ArrayList<Weight> list) {
+        this.v = v;
+        this.list = list;
+    }
+}
+class Weight{
+    int v;
+    int w;
+
+    public Weight(int v, int w) {
+        this.v = v;
+        this.w = w;
+    }
+}
+public class Main {
+    static ArrayList<Node> node = new ArrayList<>();
+    static int N;
+    static Queue<Weight> que = new LinkedList<>();
+    static int max = 0;
+    static int a;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+
+        N = Integer.parseInt(br.readLine());
+        for (int i = 0; i <= N; i++) {
+            node.add(new Node(i, new ArrayList<>()));
+        }
+        for(int i=0; i<N; i++){
+            String [] str = br.readLine().split(" ");
+            int n = Integer.parseInt(str[0]);
+            for(int j=1; j<str.length-1; j+=2){
+                if(str[j].equals("-1"))break;
+                int v = Integer.parseInt(str[j]);
+                int w = Integer.parseInt(str[j+1]);
+                node.get(n).list.add(new Weight(v, w));
+            }
+        }
+
+        Node nd = node.get(1);
+        for(Weight weight : nd.list){
+            que.add(new Weight(weight.v, weight.w));
+        }
+        BFS(nd.v);
+
+        que = new LinkedList<>();
+        nd = node.get(a);
+        for(Weight weight : nd.list){
+            que.add(new Weight(weight.v, weight.w));
+        }
+        BFS(nd.v);
+        System.out.println(max);
+        // 출력 테스트
+//        for (int i = 1; i <= N; i++) {
+//            System.out.print("Node " + i + ": ");
+//            for (Weight w : node.get(i).list) {
+//                System.out.print("(" + w.v + ", " + w.w + ") ");
+//            }
+//            System.out.println();
+//        }
+
+    }
+    static void BFS(int index){
+        Boolean []flag = new Boolean[N+1];
+        for(int i=0; i<flag.length; i++){
+            flag[i] = false;
+        }
+
+        while (!que.isEmpty()){
+            Weight weight = que.poll();
+            Node nd = node.get(weight.v);
+            flag[index] = true;
+            flag[nd.v] = true;
+//            System.out.println("원 "+weight.v+" "+ weight.w);
+            if(max< weight.w){
+                max = weight.w;
+                a = weight.v;
+            }
+            for(Weight w : nd.list){
+                if(!flag[w.v]){
+                    que.add(new Weight(w.v, weight.w+w.w));
+//                    System.out.println(w.v+" "+ (weight.w+w.w));
+                    flag[w.v] = true;
+                }
+            }
+        }
+    }
+}
+
