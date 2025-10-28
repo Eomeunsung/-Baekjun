@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.Scanner;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int arr[] = new int[N];
+
+        for(int i=0; i<N; i++){
+            arr[i] = sc.nextInt();
+        }
+
+
+        int st = 0;
+        int end = 0;
+        for(int i=0; i<arr.length; i++){
+            if(st<arr[i]){
+                st=arr[i];
+            }
+            end+=arr[i];
+        }
+        int min = end;
+        while(st<end){
+
+            int mid = (st+end)/2;
+//            System.out.println("st "+st+" end "+end+" mid "+mid);
+            int count = 0;
+            int s = 0;
+            for(int i=0; i<arr.length; i++){
+                if(s+arr[i]>mid){
+                    count++;
+                    s=0;
+                }else if(count>M){
+                    break;
+                }
+                s+=arr[i];
+            }
+            if(s!=0){
+                count++;
+            }
+//            System.out.println("Count "+count);
+            if(count<=M){
+                if(min>mid){
+                    min = mid;
+                }
+                end=mid;
+            }else if(count > M){
+                st=mid+1;
+            }else{
+                end=mid;
+            }
+
+        }
+
+        System.out.println(min);
+
+    }
+
+
+}
