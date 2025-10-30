@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+class Edge {
+    int v;
+    int depth;
+
+    public Edge(int v, int depth) {
+        this.v = v;
+        this.depth = depth;
+    }
+}
+
+public class Main {
+    static char[][] chr;
+    static int N;
+    static Queue<Edge> que = new LinkedList<>();
+
+    static int max = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+        N = Integer.parseInt(br.readLine());
+        chr = new char[N][N];
+
+        for(int i=0; i<chr.length; i++){
+            String str[] = br.readLine().split("");
+            for(int j=0; j<chr.length; j++){
+                chr[i][j] = str[j].charAt(0);
+            }
+        }
+
+
+        for(int i=0; i<chr.length; i++){
+            que.add(new Edge(i, 0));
+            Graph();
+        }
+        System.out.println(max);
+    }
+
+    static void Graph(){
+        Boolean flag[] = new Boolean[N];
+
+        for(int k=0; k<flag.length; k++){
+            flag[k] = false;
+        }
+        int count = -1;
+
+        while(!que.isEmpty()){
+            Edge edge = que.poll();
+            for(int i=0; i<chr.length; i++){
+                if(edge.v==i){
+                    continue;
+                }
+                if(chr[edge.v][i]=='Y' && !flag[i]){
+                    if(edge.depth<=0){
+                        count++;
+                        flag[i] = true;
+                        que.add(new Edge(i, edge.depth+1));
+                    }else if(edge.depth==1){
+                        count++;
+                        flag[i] = true;
+                    }
+                }
+            }
+        }
+
+        if(count>max){
+            max = count;
+        }
+
+    }
+
+}
