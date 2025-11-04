@@ -1,0 +1,92 @@
+import java.io.*;
+import java.util.*;
+
+
+class Node{
+    int v;
+    int d;
+
+    public Node(int v, int d) {
+        this.v = v;
+        this.d = d;
+    }
+}
+class Edge{
+    ArrayList<Depth> list;
+
+    public Edge(ArrayList<Depth> list) {
+        this.list = list;
+    }
+}
+
+class Depth{
+    int n;
+    int e;
+
+    public Depth(int n, int e) {
+        this.n = n;
+        this.e = e;
+    }
+}
+public class Main {
+
+    static int N;
+    static int M;
+    static Stack<Node> stack;
+    static Edge edge[];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        M = sc.nextInt();
+        edge = new Edge[N+1];
+
+        for(int i=1; i<N+1; i++){
+            edge[i] = new Edge(new ArrayList<>());
+        }
+
+        for(int i=0; i<N-1; i++){
+            int n = sc.nextInt();
+            int n1 = sc.nextInt();
+            int d = sc.nextInt();
+            edge[n].list.add(new Depth(n1, d));
+            edge[n1].list.add(new Depth(n, d));
+        }
+
+        for(int i=0; i<M; i++){
+            int st = sc.nextInt();
+            int ed = sc.nextInt();
+            stack = new Stack<>();
+            stack.add(new Node(st, 0));
+            System.out.println(DFS(ed));
+        }
+    }
+
+    static int DFS(int find){
+        Boolean flag[] = new Boolean[N+1];
+        for(int i=0; i<N+1; i++){
+            flag[i] = false;
+        }
+
+        while(!stack.isEmpty()){
+            Node node = stack.pop();
+//            System.out.println("노드 "+node.v+" 깊이 "+node.d);
+            if (node.v == find){
+                return node.d;
+            }
+
+
+            flag[node.v] = true;
+            Edge ed = edge[node.v];
+            for(Depth depth : ed.list){
+                if(!flag[depth.n]){
+                    stack.add(new Node(depth.n, node.d+depth.e));
+                }
+            }
+        }
+
+        return 0;
+    }
+
+}
