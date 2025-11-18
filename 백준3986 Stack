@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+        int N = Integer.parseInt(br.readLine());
+
+        Queue<String> que = new LinkedList<>();
+
+        for(int i=0; i<N; i++) {
+            String str = br.readLine();
+            que.add(str);
+        }
+
+
+        int count = 0;
+        while (!que.isEmpty()){
+            String str[] = que.poll().split("");
+            Stack<String> st = new Stack<>();
+            for(int i=0; i<str.length; i++){
+
+                if(st.isEmpty()){
+                    st.add(str[i]);
+                }else if(!st.isEmpty() && str[i].equals(st.peek())){
+                    st.pop();
+                }else{
+                    st.add(str[i]);
+                }
+            }
+
+            if(st.isEmpty()){count++;}
+        }
+
+        System.out.println(count);
+
+
+    }
+
+
+}
