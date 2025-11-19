@@ -1,0 +1,67 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Stack;
+
+public class Main {
+
+    static Stack<String> st = new Stack<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+        int N = Integer.parseInt(br.readLine());
+        String numList[] = new String[26];
+        String pre = br.readLine();
+
+        String arr[] = new String[N];
+        for(int i=0; i<N; i++){
+            arr[i] = br.readLine();
+        }
+
+        for(int i=0; i< numList.length; i++){
+            numList[i] = "-1";
+        }
+        for(int i=0; i<arr.length; i++){
+            numList[i] = arr[i];
+        }
+        
+        for(int i=0; i<pre.length(); i++){
+            char ch = pre.charAt(i);
+            if(ch>=65){
+                st.add(numList[ch-65]);
+            }else{
+                calculate(ch);
+            }
+        }
+        Double answer = Double.parseDouble(st.pop());
+        BigDecimal bd = new BigDecimal(Double.toString(answer));
+        bd = bd.setScale(2, RoundingMode.DOWN);  // 반올림 없이 버림
+        System.out.println(bd);
+    }
+
+    static void calculate(char chr){
+        Double s1 = Double.parseDouble(st.pop());
+        Double s2 = Double.parseDouble(st.pop());
+        Double n = 0.0;
+        if(chr=='+'){
+            n = s2+s1;
+            String str = String.valueOf(n);
+            st.add(str);
+        }else if(chr=='-'){
+            n = s2-s1;
+            String str = String.valueOf(n);
+            st.add(str);
+        }else if(chr=='*'){
+            n = s2*s1;
+            String str = String.valueOf(n);
+            st.add(str);
+        }else if(chr=='/'){
+            n = s2/s1;
+            String str = String.valueOf(n);
+            st.add(str);
+        }
+    }
+}
