@@ -1,0 +1,57 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
+
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+        StringBuilder sb;
+        HashSet<Integer> set;
+        int T = Integer.parseInt(br.readLine());
+
+        for(int i=0; i<T; i++){
+            sb = new StringBuilder();
+            set = new HashSet<>();
+            int N = Integer.parseInt(br.readLine());
+            String str[] = br.readLine().split(" ");
+            for(int j=0; j<N; j++){
+                int s = Integer.parseInt(str[j]);
+                set.add(s);
+            }
+
+            int M = Integer.parseInt(br.readLine());
+            int arr[] = new int[M];
+            str = br.readLine().split(" ");
+            for(int j=0; j<arr.length; j++){
+                int s = Integer.parseInt(str[j]);
+                arr[j] = s;
+            }
+
+            for(int j=0; j<arr.length; j++){
+
+                if(j==arr.length-1){
+                    if(set.contains(arr[j])){
+                        sb.append("1");
+                    }else{
+                        sb.append("0");
+                    }
+                }else{
+                    if(set.contains(arr[j])){
+                        sb.append("1\n");
+                    }else{
+                        sb.append("0\n");
+                    }
+                }
+
+            }
+            System.out.println(sb.toString());
+        }
+    }
+
+}
