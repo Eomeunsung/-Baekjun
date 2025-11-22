@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int arr[] = new int[N+1];
+        for(int i=2; i<=N; i++){
+            arr[i] = i;
+        }
+        int count =0;
+        for(int i=2; i<arr.length; i++){
+            if(flag(arr[i]) && arr[i]!=0){
+                int n = arr[i];
+                count++;
+//                System.out.println(arr[i]+" "+count);
+                if(count==M){
+                    System.out.println(arr[i]);
+                    return;
+                }
+                arr[i]=0;
+
+                for(int j=n; j<arr.length; j+=n){
+                    if(arr[j]==0){
+                        continue;
+                    }
+                    count++;
+//                    System.out.println(arr[j]+" "+count);
+                    if(count==M){
+                        System.out.println(arr[j]);
+                        return;
+                    }
+                    arr[j] = 0;
+
+
+                }
+            }
+
+        }
+
+    }
+
+    static boolean flag(int n) {
+        int count = 0;
+        for(int i=2; i<=n; i++){
+            if(n%i==0){
+                count++;
+            }
+        }
+
+        if(count >1){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+}
+
