@@ -1,0 +1,70 @@
+import java.io.*;
+import java.util.*;
+
+class Edge{
+    Set<Integer> n;
+
+    public Edge(Set<Integer> n) {
+        this.n = n;
+    }
+}
+
+public class Main {
+
+    static Edge[] list;
+
+    static boolean flag[];
+
+    static int count = 0;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        Scanner sc = new Scanner(System.in);
+        int N = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
+        list = new Edge[N+1];
+        flag = new boolean[N+1];
+        for(int i=0; i<=N; i++){
+            list[i] = new Edge(new HashSet<>());
+        }
+
+        for(int i=0; i<M; i++){
+            String str[] = br.readLine().split(" ");
+            int f = Integer.parseInt(str[0]);
+            int f1 = Integer.parseInt(str[1]);
+            Edge e = list[f];
+            e.n.add(f1);
+            list[f] = e;
+
+            Edge e1 = list[f1];
+            e1.n.add(f);
+            list[f1] = e1;
+        }
+
+        flag[1] = true;
+        Search(1);
+
+        for(int i=2; i< flag.length; i++){
+            if(flag[i]){
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+
+    static void Search(int v){
+
+        for(int i : list[v].n){
+            flag[i] = true;
+            for(int j : list[i].n){
+                if(!flag[j]){
+                    flag[j] = true;
+                }
+            }
+        }
+
+    }
+
+}
+
