@@ -1,0 +1,32 @@
+import java.io.*;
+import java.math.BigInteger;
+import java.util.Scanner;
+
+
+public class Main {
+    static int N;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        BigInteger dp[] = new BigInteger[N+1];
+      
+        
+        if(N==0){
+            System.out.println(0);
+
+        }else if(N==1){
+            System.out.println(1);
+        }else{
+            dp[0] = BigInteger.ZERO;
+            dp[1] = BigInteger.ONE;
+            for(int i=2; i<dp.length; i++){
+                dp[i] = dp[i-1].add(dp[i-2]);
+            }
+            bw.write(dp[N]+"\n");
+            bw.flush();
+            bw.close();
+        }
+    }
+}
